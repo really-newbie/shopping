@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>商城</title>
+    <script src="Vue2.6.10.js"></script>
+    <script src="axios.min.js"></script>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        [v-cloak] {
+            display: none;
+        }
+
+        h1 {
+            font-weight: 200;
+            margin-left: 30px;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        a:link {
+            color: rgb(73, 68, 68);
+        }
+
+        a:hover {
+            color: goldenrod;
+        }
+
+        .top {
+            height: 100px;
+        }
+
+        .top-box {
+            margin-top: 80px;
+        }
+
+        .search-box {
+            width: 580px;
+            height: 40px;
+            margin: 0 auto;
+            border: rgba(168, 168, 17, 0.815) 2px solid;
+            border-radius: 5px;
+        }
+
+        .select {
+            height: 40px;
+            border: 0;
+            border-right: wheat 1px solid;
+        }
+
+        .search {
+            height: 40px;
+            width: 420px;
+            border: none;
+            outline: none;
+            vertical-align: top;
+        }
+
+        .sou {
+            height: 40px;
+            width: 60px;
+            background-color: rgba(168, 168, 17, 0.815);
+            border: none;
+            float: right;
+        }
+
+        .classify-Img {
+            width: 100%;
+            height: 470px;
+        }
+
+        .classify-list {
+            list-style: none;
+            width: 270px;
+            background-color: rgba(112, 105, 105, 0.419);
+            position: absolute;
+            top: 180px;
+            left: 100px;
+        }
+
+        .li {
+            color: antiquewhite;
+            height: 52.5px;
+            line-height: 52.5px;
+            text-align: center;
+            transition: all 1s ease;
+        }
+
+        .li:hover {
+            background-color: rgb(66, 13, 165);
+        }
+
+        .classify-list2 {
+            list-style: none;
+            position: absolute;
+            left: 270px;
+            top: 0;
+            width: 940px;
+            height: 470px;
+            background-color: rgb(229, 248, 228);
+            padding-left: 20px;
+        }
+
+        .li2 {
+            width: 225px;
+            float: left;
+            color: brown;
+        }
+
+        .classify-list3 {
+            list-style: none;
+            line-height: 25px;
+        }
+
+        .li3 {
+            height: 25px;
+        }
+
+        .hot-item {
+            position: relative;
+            width: 90%;
+            height: 470px;
+            margin: 30px auto 0;
+        }
+
+        .block-content {
+            margin-top: 30px;
+            height: 380px;
+            overflow: hidden;
+        }
+
+        .item {
+            padding: 0 15px;
+            height: 380px;
+            width: 20%;
+            float: left;
+            box-sizing: border-box;
+        }
+
+        .item img {
+            display: block;
+            height: 200px;
+            width: 200px;
+        }
+
+        .tag+a {
+            display: block;
+            height: 200px;
+        }
+
+        .tx {
+            position: relative;
+            top: -200px;
+            display: inline-block;
+            width: 200px;
+            height: 200px;
+            transition: all 1s ease;
+        }
+
+        .tx:hover {
+            background-color: rgba(78, 72, 72, 0.336);
+        }
+
+        .item-info {
+            margin-top: 10px;
+            height: 150px;
+        }
+
+        .item-info-a {
+            display: inline-block;
+            height: 63px;
+        }
+
+        .item p {
+            color: red;
+            margin: 20px 0;
+        }
+
+        .tag {
+            position: relative;
+            top: 20px;
+            width: 20px;
+            height: 20px;
+            line-height: 20px;
+            color: aliceblue;
+            background-color: red;
+        }
+
+        .boult {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            top: 250px;
+            font-size: 35px;
+            line-height: 40px;
+            text-align: center;
+            background-color: yellow;
+            border: 1px yellow solid;
+        }
+
+        .boult:hover {
+            background-color: antiquewhite;
+        }
+
+        .boult a {
+            color: antiquewhite;
+        }
+
+        .boult a:hover {
+            color: yellow;
+        }
+
+        .left {
+            left: -42px;
+        }
+
+        .right {
+            left: 1215px;
+        }
+
+        .common-item {
+            position: relative;
+            width: 90%;
+            height: 470px;
+            margin: 30px auto 0;
+        }
+
+        .common-item h1 {
+            display: inline-block;
+        }
+
+        .nav {
+            float: right;
+            width: 130px;
+            height: 42px;
+            line-height: 42px;
+            text-align: center;
+        }
+
+        .footer {
+            height: 100px;
+        }
+
+        .navigation {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            width: 40px;
+            text-align: center;
+        }
+
+        .navigation a {
+            display: inline-block;
+            font-size: 14px;
+            height: 40px;
+            width: 40px;
+            margin-bottom: 10px;
+            color: aliceblue;
+            background-color: rgb(236, 117, 48);
+        }
+
+        .navigation a:hover {
+            color: chartreuse;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="root">
+        <div class="top">
+            <div class="top-box">
+                <div class='search-box'>
+                    <select class='select' v-cloak>
+                        <option v-for='item in list'>{{item}}</option>
+                    </select>
+                    <input type='text' class='search'>
+                    <input type="button" class='sou' value="搜索">
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            <div class="classify">
+                <img :src='img' class='classify-Img'>
+                <!-- 第一层分类 -->
+                <ul class='classify-list' v-cloak>
+                    <li v-for='(item,index) in list' class='li' @mouseover='mouse(index,true)'
+                        @mouseout='mouse(index,false)'>
+                        {{item.name}}
+                        <!-- 第二层分类 -->
+                        <ul v-show='item.flag' class='classify-list2'>
+                            <li v-for='item2 in list2[index]' class='li2'>
+                                {{item2.title}}
+                                <!-- 第三层分类 -->
+                                <ul class='classify-list3'>
+                                    <li v-for='item3 in item2.subtitle' class='li3'>
+                                        <a href="javascript:">{{item3}}</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class='hot-item' id='hot' @mouseover='hot1 = true' @mouseout='hot1 = false'>
+                <h1>热销商品</h1>
+                <div class="block-content">
+                    <div class="item" v-for='item in hotItem'>
+                        <div class='tag'>热</div>
+                        <a href="javascript:"><img :src='item.img'>
+                            <div class="tx"></div>
+                        </a>
+                        <div class="item-info" v-cloak>
+                            <a href="javascript:" class="item-info-a">{{item.name}}</a>
+                            <p>{{item.price}}</p>
+                            <a href="javascript:" class>查看详情</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="left boult" @click='move(true,"hot")' v-show='hot1' key="saved">
+                    <a href="javascript:" key="saveds">{{left}}</a>
+                </div>
+                <div class="right boult" @click='move(false,"hot")' v-show='hot1'>
+                    <a href="javascript:">{{right}}</a>
+                </div>
+
+            </div>
+            <div class='hot-item' id='new' @mouseover='hot2 = true' @mouseout='hot2=false'>
+                <h1>新品上架</h1>
+                <div class="block-content">
+                    <div class="item" v-for='item in newItem'>
+                        <div class='tag'>新</div>
+                        <a href="javascript:"><img :src='item.img'>
+                            <div class="tx"></div>
+                        </a>
+                        <div class="item-info" v-cloak>
+                            <a href="javascript:" class="item-info-a">{{item.name}}</a>
+                            <p>{{item.price}}</p>
+                            <a href="javascript:" class>查看详情</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="left boult" @click='move(true,"new")' v-show='hot2'>
+                    <a href="javascript:">{{left}}</a>
+                </div>
+                <div class="right boult" @click='move(false,"new")' v-show='hot2'>
+                    <a href="javascript:">{{right}}</a>
+                </div>
+            </div>
+            <div class="common-item" id='eat'>
+                <div>
+                    <h1>食品</h1>
+                    <div class="nav" v-for='(item,index) in goodsList[0].list'><a href="javascript:"
+                            @click='listId1 = index'>{{item.name2}}</a></div>
+                </div>
+                <div class="block-content">
+                    <div class="item" v-for='item in goodsList[0].list[listId1].list2'>
+                        <div class='tag'>精</div>
+                        <a href="javascript:"><img :src='item.img'>
+                            <div class="tx"></div>
+                        </a>
+                        <div class="item-info" v-for="item2 in goodsList">
+                            <a href="javascript:" class="item-info-a">{{item.name}}</a>
+                            <p>{{item.price}}</p>
+                            <a href="javascript:" class>查看详情</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="common-item" id='com'>
+                <div>
+                    <h1>电脑办公</h1>
+                    <div class="nav" v-for='(item,index) in goodsList[1].list'><a href="javascript:"
+                            @click='listId2 = index'>{{item.name2}}</a></div>
+                </div>
+                <div class="block-content">
+                    <div class="item" v-for='item in goodsList[1].list[listId2].list2'>
+                        <div class='tag'>精</div>
+                        <a href="javascript:"><img :src='item.img'>
+                            <div class="tx"></div>
+                        </a>
+                        <div class="item-info" v-for="item2 in goodsList">
+                            <a href="javascript:" class="item-info-a">{{item.name}}</a>
+                            <p>{{item.price}}</p>
+                            <a href="javascript:" class>查看详情</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="navigation">
+                <a href="#hot">热销商品</a>
+                <a href="#new">新品上架</a>
+                <a href="#eat">食品</a>
+                <a href="#com">电脑办公</a>
+                <a href="#">返回顶部</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var vm = new Vue({
+            el: '.top',
+            data: {
+                list: [],
+            },
+            created: function () {
+                axios({
+                    url: 'data.php',
+                    method: 'get',
+                    responseType: 'json',
+                    params: {
+                        id: 'one',
+                    },
+                }).then(res => {
+                    this.list = res.data;
+                });
+            },
+        });
+        var vm2 = new Vue({
+            el: '.content',
+            data: {
+                hot1: false,
+                hot2: false,
+                left: '<',
+                right: '>',
+                img: 'images/1.png',
+                listId1: 0,
+                listId2: 0,
+                id: 0,
+                images: ['images/1.png', 'images/2.png', 'images/3.png'],
+                list: [],
+                list2: [],
+                hotItem: [],
+                newItem: [],
+                goodsList: [],
+            },
+            methods: {
+                changeImg: function () {
+                    // console.log(this.id);
+                    // console.log(this.images.length);
+                    if (this.id < this.images.length) {
+                        this.img = this.images[this.id];
+                        this.id++;
+                    } else {
+                        this.img = this.images[0];
+                        this.id = 1;
+                    }
+                    // console.log(this.img);
+                },
+                mouse: function (index, bool) {
+                    this.list[index].flag = bool;
+                },
+                move: function (flag, name) {
+                    if (flag) {
+                        if (name == 'hot') {
+                            this.hotItem.unshift(this.hotItem.pop());
+                        } else if (name == 'new') {
+                            this.newItem.unshift(this.newItem.pop());
+                        }
+                    } else {
+                        if (name == 'hot') {
+                            this.hotItem.push(this.hotItem.shift());
+                        } else if (name == 'new') {
+                            this.newItem.push(this.newItem.shift());
+                        }
+                    }
+                    console.log(name);
+                },
+                toArr: function (s, id) {
+                    var arr = [];
+                    var arr2 = [];
+                    var arr3 = [];
+                    var arr4 = [];
+                    var arr5 = [];
+                    var arr6 = [];
+                    if (id == 1) {
+                        for (var i = 0; i < s.length; i++) {
+                            arr[i] = {
+                                name: s[i],
+                                flag: false,
+                            };
+                        }
+                        this.list = arr;
+                        // console.log(arr);
+                    } else if (id == 2) {
+                        arr2 = s.split('+');
+                        for (var i = 0; i < arr2.length; i++) {
+                            arr = arr2[i].split('.');
+                            // console.log(arr);
+                            for (var j = 0; j < arr.length; j++) {
+                                arr3 = arr[j].split('?');
+                                var a = arr3[0].split("-")[0];
+                                var b = arr3[0].split("-")[1];
+                                var c = arr3[1].split("-")[0];
+                                var d = arr3[1].split("-")[1].split(',');
+                                arr4[j] = {
+                                    [a]: b,
+                                    [c]: d,
+                                }
+
+                            }
+                            arr5[i] = [].concat(arr4);
+                            arr4 = [];
+                        }
+                        this.list2 = arr5;
+                    } else if (id == 3) {
+                        arr2 = s.split('+');
+                        for (var i = 0; i < arr2.length; i++) {
+                            arr = arr2[i].split('~');
+                            // console.log(arr);
+                            for (var j = 0; j < arr.length; j++) {
+                                arr3 = arr[j].split('!');
+                                var a = arr3[0].split("-")[0];
+                                var b = arr3[0].split("-")[1];
+                                var c = arr3[1].split("-")[0];
+                                var d = arr3[1].split("-")[1];
+                                var e = arr3[2].split("-")[0];
+                                var f = arr3[2].split("-")[1];
+                                arr4[j] = {
+                                    [a]: b,
+                                    [c]: d,
+                                    [e]: f,
+                                }
+
+                            }
+                            arr5[i] = [].concat(arr4);
+                            arr4 = [];
+                        }
+                        this.hotItem = arr5[0];
+                        this.newItem = arr5[1];
+                    } else if (id == 4) {
+                        arr2 = s.split('+');
+                        for (var i = 0; i < arr2.length; i++) {
+                            arr = arr2[i].split('!')
+                            var a = arr[0].split('@')[0];
+                            var b = arr[0].split('@')[1];
+                            var c = arr[1].split('@')[0];
+                            arr = arr[1].split('@');
+                            arr = arr[1].split('#');
+                            // console.log(arr);
+                            for (var j = 0; j < arr.length; j++) {
+                                arr3 = arr[j].split('~');
+                                var d = arr3[0].split('%')[0];
+                                var e = arr3[0].split('%')[1];
+                                var f = arr3[1].split('%')[0];
+                                arr3 = arr3[1].split('%');
+                                arr3 = arr3[1].split('^');
+                                for (var k = 0; k < arr3.length; k++) {
+                                    arr4 = arr3[k].split(',');
+                                    var g = arr4[0].split("=")[0];
+                                    var h = arr4[0].split("=")[1];
+                                    var l = arr4[1].split("=")[0];
+                                    var m = arr4[1].split("=")[1];
+                                    var n = arr4[2].split("=")[0];
+                                    var o = arr4[2].split("=")[1];
+                                    arr5[k] = {
+                                        [g]: h,
+                                        [l]: m,
+                                        [n]: o
+                                    }
+                                }
+                                arr6[j] = {
+                                    [d]: e,
+                                    [f]: null,
+                                }
+                                arr6[j].list2 = [].concat(arr5);
+                                arr5 = [];
+                            }
+                            this.goodsList[i] = {
+                                [a]: b,
+                                [c]: null,
+                            };
+                            this.goodsList[i].list = [].concat(arr6);
+                            // arr5[i] = [].concat(arr4);
+                        }
+                    }
+                },
+            },
+            created: function () {
+                axios({
+                    url: 'data.php',
+                    method: 'get',
+                    responseType: 'json',
+                    params: {
+                        id: 'two',
+                    },
+                }).then(res => {
+                    console.log(res.data);
+                    this.toArr(res.data[0], 1);
+                    this.toArr(res.data[1], 2);
+                    this.toArr(res.data[2], 3);
+                    this.toArr(res.data[3], 4);
+                });
+            },
+            mounted: function () {
+                setInterval(this.changeImg, 3000);
+            }
+        })
+    </script>
+</body>
+
+</html>
